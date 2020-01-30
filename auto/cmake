@@ -1,0 +1,13 @@
+# -*- mode: sh -*-
+
+CMAKE_FLAGS=
+
+add_cmake_flag() {
+    echo "Using $1=$2"
+    CMAKE_FLAGS="${CMAKE_FLAGS} -D$1=$2"
+}
+
+get_dep() {
+    local name=$1
+    head -n 1 ./deps/$name | awk '{print $1}'
+}

@@ -1,0 +1,20 @@
+#!/bin/sh
+set -e
+
+cd $(dirname $0)
+
+. ./auto/cmake
+
+USE_BLAS=1
+
+add_cmake_flags() {
+    add_cmake_flag CMAKE_RUNTIME_OUTPUT_DIRECTORY $PWD/bin
+    add_cmake_flag USE_OPENBLAS 1
+    add_cmake_flag STDTENSOR_GIT_TAG $(get_dep stdtensor)
+    add_cmake_flag STDNN_OPS_GIT_TAG $(get_dep stdnn-ops)
+    add_cmake_flag USE_OPENBLAS ${USE_BLAS}
+    add_cmake_flag CMAKE_BUILD_TYPE Release
+}
+
+add_cmake_flags
+cmake . ${CMAKE_FLAGS}
