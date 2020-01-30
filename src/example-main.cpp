@@ -6,25 +6,26 @@
 #include <string>
 
 #include <stdtracer>
+#include <ttl/nn/layers>
 #include <ttl/range>
 
 DEFINE_TRACE_CONTEXTS;
 
 #include <example_openpose_plus_hao28.hpp>
+#include <opencv2/opencv.hpp>
+#include <openpose-plus.h>
+#include <vis.h>
 
-#include <cxxabi.h>
-
-static inline std::string demangled_type_info_name(const std::type_info &ti)
+namespace ttl::nn::ops
 {
-    int status = 0;
-    return abi::__cxa_demangle(ti.name(), 0, 0, &status);
-}
-
-template <typename T>
-static inline std::string demangled_type_info_name()
+template <typename T, typename Op, typename... Ts>
+T apply(const Op &op, const Ts &... args)
 {
-    return demangled_type_info_name(typeid(T));
+    auto y = T(op(args.shape()...));
+    op(ttl::ref(y), ttl::view(args)...);
+    return y;
 }
+}  // namespace ttl::nn::ops
 
 int main(int argc, char *argv[])
 {
@@ -32,54 +33,45 @@ int main(int argc, char *argv[])
 
     const std::string home(std::getenv("HOME"));
     const auto prefix = home + "/var/models/openpose";
-    // const auto filename =
-    //     home +
-    //     "/var/data/openpose/examples/media/COCO_val2014_000000000192.jpg";
+    const auto filename =
+        home +
+        "/var/data/openpose/examples/media/COCO_val2014_000000000192.jpg";
 
     openpose_plus_hao28 openpose(prefix);
 
-    // auto paf_runner =
-    //     create_paf_processor(32, 48, openpose.h, openpose.w, 19, 19, 13);
+    auto paf_runner =
+        create_paf_processor(32, 48, openpose.h, openpose.w, 19, 19, 13);
 
     auto x = ttl::tensor<float, 4>(1, openpose.h, openpose.w, 3);
 
     // TODO: input images
-    // auto input = ttl::tensor<uint8_t, 4>(x.shape());
-    // cv::Mat resized_image(cv::Size(openpose.w, openpose.h), CV_8UC(3),
-    //                       input.data());
-    // {
-    //     auto img = cv::imread(filename);
-    //     cv::resize(img, resized_image, resized_image.size(), 0, 0);
-    //     std::transform(input.data(), data_end(input), x.data(),
-    //                    [](uint8_t p) { return p / 255.0; });
-    // }
-
-    // printf(
-    //     "%s\n",
-    //     demangled_type_info_name<ttl::nn::engines::default_engine>().c_str());
-    // engines::default_engine
+    auto input = ttl::tensor<uint8_t, 4>(x.shape());
+    cv::Mat resized_image(cv::Size(openpose.w, openpose.h), CV_8UC(3),
+                          input.data());
+    {
+        auto img = cv::imread(filename);
+        cv::resize(img, resized_image, resized_image.size(), 0, 0);
+        std::transform(input.data(), input.data_end(), x.data(),
+                       [](uint8_t p) { return p / 255.0; });
+    }
 
     int repeats = 5;
     for (auto i : ttl::range(repeats)) {
         printf("inference %d\n", i);
-        {
-            TRACE_SCOPE("openpose");
-            auto [l_conf, l_paf] = openpose(ttl::ref(x));
-        }
-        printf("inference %d done\n", i);
+        auto [l_conf, l_paf] = openpose(ttl::ref(x));
 
         // TODO: run paf process
-        // auto conf = nn::ops::apply<ttl::tensor<float, 4>>(
-        //     nn::ops::to_channels_first(), ref(*l_conf));
-        // auto paf = nn::ops::apply<ttl::tensor<float, 4>>(
-        //     nn::ops::to_channels_first(), ref(*l_paf));
+        auto conf = ttl::nn::ops::apply<ttl::tensor<float, 4>>(
+            ttl::nn::ops::to_channels_first(), *l_conf);
+        auto paf = ttl::nn::ops::apply<ttl::tensor<float, 4>>(
+            ttl::nn::ops::to_channels_first(), *l_paf);
 
-        // auto human = (*paf_runner)(conf.data(), paf.data(), false);
-        // for (auto h : human) {
-        //     h.print();
-        //     draw_human(resized_image, h);
-        // }
-        // cv::imwrite("a.png", resized_image);
+        auto human = (*paf_runner)(conf.data(), paf.data(), false);
+        for (auto h : human) {
+            h.print();
+            draw_human(resized_image, h);
+        }
+        cv::imwrite("a.png", resized_image);
     }
     return 0;
 }

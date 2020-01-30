@@ -1,10 +1,11 @@
 *.a
 *.o
 *.out
+*.png
 /bin
 /lib
+3rdparty
 CMakeCache.txt
 CMakeFiles
 Makefile
 cmake_install.cmake
-3rdparty

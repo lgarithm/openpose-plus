@@ -7,6 +7,7 @@ SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 FIND_PACKAGE(stdtensor REQUIRED)
 FIND_PACKAGE(stdnn-ops REQUIRED)
 FIND_PACKAGE(stdtracer REQUIRED)
+FIND_PACKAGE(OpenCV REQUIRED)
 
 IF(USE_OPENBLAS)
     INCLUDE(cmake/blas.cmake)
@@ -15,5 +16,10 @@ INCLUDE(cmake/utils.cmake)
 
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/3rdparty/include)
+
+ADD_LIBRARY(paf src/paf.cpp src/vis.cpp)
+TARGET_USE_STDTENSOR(paf)
+TARGET_USE_STDNN_OPS(paf)
+TARGET_LINK_LIBRARIES(paf opencv_core opencv_imgproc opencv_imgcodecs)
 
 ADD_EXAMPLE_MAIN(src/example-main.cpp)
