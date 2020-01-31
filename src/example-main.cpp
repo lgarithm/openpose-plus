@@ -33,9 +33,11 @@ int main(int argc, char *argv[])
 
     const std::string home(std::getenv("HOME"));
     const auto prefix = home + "/var/models/openpose";
+
+    // const auto data_dir = home + "/var/data/openpose";
+    const std::string data_dir("./data/openpose");
     const auto filename =
-        home +
-        "/var/data/openpose/examples/media/COCO_val2014_000000000192.jpg";
+        data_dir + "/examples/media/COCO_val2014_000000000192.jpg";
 
     openpose_plus_hao28 openpose(prefix);
 
