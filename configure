@@ -6,13 +6,40 @@ cd $(dirname $0)
 . ./auto/cmake
 
 USE_BLAS=1
+BLAS_HOME=
+
+parse_args() {
+    for i in "$@"; do
+        case $i in
+        --with-blas=*)
+            BLAS_HOME="${i#*=}"
+            ;;
+        --use-blas)
+            USE_BLAS=1
+            ;;
+        *)
+            echo "unknown argument $i"
+            exit 1
+            ;;
+        esac
+    done
+}
+
+add_cmake_prefixes() {
+    add_cmake_prefix $HOME/local
+    add_cmake_prefix $HOME/local/gtest
+    add_cmake_prefix $HOME/local/openblas
+}
 
 add_cmake_flags() {
     add_cmake_flag CMAKE_RUNTIME_OUTPUT_DIRECTORY $PWD/bin
-    add_cmake_flag USE_OPENBLAS 1
     add_cmake_flag STDTENSOR_GIT_TAG $(get_dep stdtensor)
     add_cmake_flag STDNN_OPS_GIT_TAG $(get_dep stdnn-ops)
     add_cmake_flag USE_OPENBLAS ${USE_BLAS}
+    if [ ! -z "${BLAS_HOME}" ]; then
+        add_cmake_flag BLAS_HOME ${BLAS_HOME}
+    fi
+
     add_cmake_flag CMAKE_BUILD_TYPE Release
 
     pass_cmake_flag_from_env STDTRACER_GIT_URL
@@ -20,5 +47,9 @@ add_cmake_flags() {
     pass_cmake_flag_from_env STDNN_OPS_GIT_URL
 }
 
-add_cmake_flags
-cmake . ${CMAKE_FLAGS}
+config() {
+    parse_args $@
+    config_cmake
+}
+
+config $@
