@@ -14,6 +14,10 @@ add_cmake_flags() {
     add_cmake_flag STDNN_OPS_GIT_TAG $(get_dep stdnn-ops)
     add_cmake_flag USE_OPENBLAS ${USE_BLAS}
     add_cmake_flag CMAKE_BUILD_TYPE Release
+
+    pass_cmake_flag_from_env STDTRACER_GIT_URL
+    pass_cmake_flag_from_env STDTENSOR_GIT_URL
+    pass_cmake_flag_from_env STDNN_OPS_GIT_URL
 }
 
 add_cmake_flags

@@ -7,7 +7,29 @@ add_cmake_flag() {
     CMAKE_FLAGS="${CMAKE_FLAGS} -D$1=$2"
 }
 
-get_dep() {
+pass_cmake_flag_from_env() {
+    local name=$1
+    local env_key=$2
+    if [ -z ${env_key} ]; then
+        env_key=$name
+    fi
+    local val=$(eval echo \$$env_key)
+    if [ ! -z "$val" ]; then
+        add_cmake_flag $name $val
+    fi
+}
+
+get_dep_commit() {
     local name=$1
     head -n 1 ./deps/$name | awk '{print $1}'
+}
+
+get_dep_tag() {
+    local name=$1
+    head -n 1 ./deps/$name | awk '{print $2}'
+}
+
+get_dep() {
+    # get_dep_commit $@
+    get_dep_tag $@
 }
