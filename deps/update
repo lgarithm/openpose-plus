@@ -15,5 +15,5 @@ latest() {
 
 latest stdtracer master lgarithm/stdtracer
 latest stdtensor dev-0.6.0 lgarithm/stdtensor
-latest stdnn-ops grad-kernel lgarithm/stdnn-ops
+latest stdnn-ops master lgarithm/stdnn-ops
 #latest stdnn-ops-cuda kernel lgarithm/stdnn-ops-cuda
