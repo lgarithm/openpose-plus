@@ -7,6 +7,8 @@ cd $(dirname $0)
 
 USE_BLAS=1
 BLAS_HOME=
+ENABLE_CUDA=0
+CUDA_HOME=/usr/bin/local
 
 parse_args() {
     for i in "$@"; do
@@ -16,6 +18,9 @@ parse_args() {
             ;;
         --use-blas)
             USE_BLAS=1
+            ;;
+        --enable-cuda)
+            ENABLE_CUDA=1
             ;;
         *)
             echo "unknown argument $i"
@@ -45,6 +50,8 @@ add_cmake_flags() {
     pass_cmake_flag_from_env STDTRACER_GIT_URL
     pass_cmake_flag_from_env STDTENSOR_GIT_URL
     pass_cmake_flag_from_env STDNN_OPS_GIT_URL
+
+    add_cmake_flag ENABLE_CUDA ${ENABLE_CUDA}
 }
 
 config() {
