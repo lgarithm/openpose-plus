@@ -16,6 +16,7 @@ measure() {
 
 config_flags() {
     echo --with-blas=$HOME/local/openblas
+    echo --enable-cuda
 }
 
 rebuild() {

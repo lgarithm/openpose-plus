@@ -10,6 +10,8 @@ FIND_PACKAGE(stdtracer REQUIRED)
 
 IF(ENABLE_CUDA)
     FIND_PACKAGE(stdnn-ops-cuda REQUIRED)
+    INCLUDE_DIRECTORIES(${CUDA_TOOLKIT_ROOT_DIR}/include)
+    LINK_DIRECTORIES(${CUDA_TOOLKIT_ROOT_DIR}/lib64)
 ELSE()
     ADD_DEFINITIONS(-DUSE_FAKE_CUDA_RUNTIME)
 ENDIF()
@@ -30,3 +32,4 @@ TARGET_USE_STDNN_OPS(paf)
 TARGET_LINK_LIBRARIES(paf opencv_core opencv_imgproc opencv_imgcodecs)
 
 ADD_EXAMPLE_MAIN(src/example-main.cpp)
+TARGET_LINK_LIBRARIES(example-main cudart)

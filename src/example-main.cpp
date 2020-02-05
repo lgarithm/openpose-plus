@@ -8,6 +8,7 @@
 #include <stdtracer>
 #include <ttl/contrib/opencv>
 #include <ttl/cuda_tensor>
+#include <ttl/nn/kernels/cuda>
 #include <ttl/nn/layers>
 #include <ttl/range>
 

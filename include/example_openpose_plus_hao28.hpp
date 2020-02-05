@@ -3,6 +3,7 @@
 
 #include <ttl/cuda_tensor>
 #include <ttl/experimental/copy>
+#include <ttl/nn/cuda_ops>
 #include <ttl/nn/layers>
 #include <ttl/nn/models>
 #include <ttl/nn/ops>
@@ -191,10 +192,9 @@ struct openpose_plus_hao28 {
     template <typename R, typename D>
     auto operator()(const ttl::tensor_view<R, 4, D> &x)
     {
-        // const ttl::cuda_tensor<R, 4> x_gpu(x.shape());
-        // ttl::copy(ttl::ref(x_gpu), x);
-        // openpose_plus_hao28_impl<R> f(data_dir_);
-        // f(ttl::view(x_gpu));
+        const ttl::cuda_tensor<R, 4> x_gpu(x.shape());
+        ttl::copy(ttl::ref(x_gpu), x);
+        // (openpose_plus_hao28_impl<R>(data_dir_))(ttl::view(x_gpu));
         return openpose_plus_hao28_impl<R>(data_dir_)(x);
     }
 };
