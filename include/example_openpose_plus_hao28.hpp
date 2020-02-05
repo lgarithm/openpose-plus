@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdio>
 
+#include <ttl/cuda_tensor>
+#include <ttl/experimental/copy>
 #include <ttl/nn/layers>
 #include <ttl/nn/models>
 #include <ttl/nn/ops>
@@ -180,9 +182,11 @@ struct openpose_plus_hao28 {
     {
     }
 
-    template <typename R>
-    auto operator()(const ttl::tensor_ref<R, 4> &x)
+    template <typename R, typename D>
+    auto operator()(const ttl::tensor_ref<R, 4, D> &x)
     {
+        const ttl::cuda_tensor<R, 4> x_gpu(x.shape());
+        ttl::copy(ttl::ref(x_gpu), ttl::view(x));
         return openpose_plus_hao28_impl<R>(data_dir_)(x);
     }
 };
