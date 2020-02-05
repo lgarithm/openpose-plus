@@ -63,19 +63,22 @@ struct openpose_plus_hao28_impl {
     const int n_joins = 19;
     const int n_connections = 19;
 
-    auto operator()(const ttl::tensor_ref<R, 4> &x)
+    template <typename D>
+    auto operator()(const ttl::tensor_view<R, 4, D> &x)
     {
         return ns.with("model", [&] {
             const auto fm = cnn(x);
-            auto p1 = stage1(*fm);
+            auto p1 = stage1(ttl::view(*fm));
             auto p5 = [&] {
                 return ns.with("stage5", [&] {
-                    return stage2(*fm, *p1.first, *p1.second);
+                    return stage2(ttl::view(*fm), ttl::view(*p1.first),
+                                  ttl::view(*p1.second));
                 });
             }();
             auto p6 = [&] {
                 return ns.with("stage6", [&] {
-                    return stage2(*fm, *p5.first, *p5.second);
+                    return stage2(ttl::view(*fm), ttl::view(*p5.first),
+                                  ttl::view(*p5.second));
                 });
             }();
             return p6;
@@ -83,7 +86,8 @@ struct openpose_plus_hao28_impl {
     }
 
   private:
-    auto cnn(const ttl::tensor_ref<R, 4> &x)
+    template <typename D>
+    auto cnn(const ttl::tensor_view<R, 4, D> &x)
     {
         // TRACE_SCOPE(__func__);
 
@@ -107,7 +111,8 @@ struct openpose_plus_hao28_impl {
         return conv_layers(x);
     }
 
-    auto stage1(const ttl::tensor_ref<R, 4> &x)
+    template <typename D>
+    auto stage1(const ttl::tensor_view<R, 4, D> &x)
     {
         // TRACE_SCOPE(__func__);
 
@@ -135,9 +140,10 @@ struct openpose_plus_hao28_impl {
         });
     }
 
-    auto stage2(const ttl::tensor_ref<R, 4> &x,  //
-                const ttl::tensor_ref<R, 4> &b1,
-                const ttl::tensor_ref<R, 4> &b2)
+    template <typename D>
+    auto stage2(const ttl::tensor_view<R, 4, D> &x,  //
+                const ttl::tensor_view<R, 4, D> &b1,
+                const ttl::tensor_view<R, 4, D> &b2)
     {
         // TRACE_SCOPE(__func__);
 
@@ -165,7 +171,7 @@ struct openpose_plus_hao28_impl {
                 return common() << conv_(2 * n_connections, 1, 0, "pafs");
             });
         }();
-        return std::make_pair(left(ref(*net)), right(ref(*net)));
+        return std::make_pair(left(ttl::view(*net)), right(ttl::view(*net)));
     }
 };
 
@@ -183,10 +189,12 @@ struct openpose_plus_hao28 {
     }
 
     template <typename R, typename D>
-    auto operator()(const ttl::tensor_ref<R, 4, D> &x)
+    auto operator()(const ttl::tensor_view<R, 4, D> &x)
     {
-        const ttl::cuda_tensor<R, 4> x_gpu(x.shape());
-        ttl::copy(ttl::ref(x_gpu), ttl::view(x));
+        // const ttl::cuda_tensor<R, 4> x_gpu(x.shape());
+        // ttl::copy(ttl::ref(x_gpu), x);
+        // openpose_plus_hao28_impl<R> f(data_dir_);
+        // f(ttl::view(x_gpu));
         return openpose_plus_hao28_impl<R>(data_dir_)(x);
     }
 };

@@ -59,8 +59,8 @@ int main(int argc, char *argv[])
     int repeats = 5;
     for (auto i : ttl::range(repeats)) {
         printf("inference %d\n", i);
-        ttl::tensor_ref<float, 4> x_batch(x.data(), 1, openpose.h, openpose.w,
-                                          3);
+        ttl::tensor_view<float, 4> x_batch(x.data(), 1, openpose.h, openpose.w,
+                                           3);
         auto [l_conf, l_paf] = openpose(x_batch);
         // TODO: run paf process
         auto conf = ttl::nn::ops::apply<ttl::tensor<float, 4>>(
