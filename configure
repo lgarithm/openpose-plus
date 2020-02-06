@@ -51,7 +51,6 @@ add_cmake_flags() {
 
     add_cmake_flag STDTENSOR_GIT_TAG $(get_dep stdtensor)
     add_cmake_flag STDNN_OPS_GIT_TAG $(get_dep stdnn-ops)
-    add_cmake_flag STDNN_OPS_CUDA_GIT_TAG $(get_dep stdnn-ops-cuda)
 
     if [ ${ENABLE_CUDA} -eq 1 ]; then
         pass_cmake_flag_from_env STDNN_OPS_CUDA_GIT_URL

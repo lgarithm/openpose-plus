@@ -48,8 +48,8 @@ get_dep_tag() {
 }
 
 get_dep() {
-    # get_dep_commit $@
-    get_dep_tag $@
+    get_dep_commit $@
+    # get_dep_tag $@
 }
 
 config_cmake() {
