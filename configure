@@ -60,6 +60,7 @@ add_cmake_flags() {
         add_cmake_flag STDNN_OPS_CUDA_GIT_TAG $(get_dep stdnn-ops-cuda)
     fi
     add_cmake_flag ENABLE_CUDA ${ENABLE_CUDA}
+    add_cmake_flag USE_STRICT 1
 }
 
 config() {

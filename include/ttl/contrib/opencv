@@ -8,6 +8,7 @@ namespace ttl::cv
 ::cv::Mat as_cv_mat(const ttl::tensor_ref<uint8_t, 3> &x)
 {
     const auto [h, w, c] = x.dims();  // FIXME: check c==3
+    if (c != 3) { throw std::invalid_argument("invalid image shape"); }
     return ::cv::Mat(::cv::Size(w, h), CV_8UC(3), x.data());
 }
 

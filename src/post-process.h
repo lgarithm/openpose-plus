@@ -15,6 +15,11 @@ using ttl::tensor_ref;
 
 #include <openpose-plus.h>
 
+template <typename T>
+void unused(const T &)
+{
+}
+
 // #include "cudnn.hpp"
 // #include "std_cuda_tensor.hpp"
 // #include "trace.hpp"
@@ -25,6 +30,9 @@ using ttl::tensor_ref;
 template <typename T>
 void resize_area(const tensor_ref<T, 3> &input, tensor<T, 3> &output)
 {
+    // using dim_t = tensor_ref<T, 3>::dimension_type;
+    using dim_t = uint32_t;
+
     TRACE_SCOPE(__func__);
 
     const auto [channel, height, width] = input.dims();
@@ -32,17 +40,18 @@ void resize_area(const tensor_ref<T, 3> &input, tensor<T, 3> &output)
     // const int height = input.shape().dims[1];
     // const int width = input.shape().dims[2];
 
-    const auto [target_channel, target_height, target_width] = output.dims();
+    const auto [_target_channel, target_height, target_width] = output.dims();
+    unused(_target_channel);
 
     // const int target_channel = output.shape().dims[0];
     // const int target_height = output.shape().dims[1];
     // const int target_width = output.shape().dims[2];
 
-    assert(channel == target_channel);
+    assert(channel == _target_channel);
 
     const cv::Size size(width, height);
     const cv::Size target_size(target_width, target_height);
-    for (int k = 0; k < channel; ++k) {
+    for (dim_t k = 0; k < channel; ++k) {
         const cv::Mat input_image(size, cv::DataType<T>::type,
                                   (T *)input[k].data());
         cv::Mat output_image(target_size, cv::DataType<T>::type,
@@ -55,6 +64,7 @@ void resize_area(const tensor_ref<T, 3> &input, tensor<T, 3> &output)
 template <typename T>
 void smooth(const tensor<T, 3> &input, tensor<T, 3> &output, int ksize)
 {
+    using dim_t = uint32_t;
     const T sigma = 3.0;
 
     // const int channel = input.shape().dims[0];
@@ -67,7 +77,7 @@ void smooth(const tensor<T, 3> &input, tensor<T, 3> &output, int ksize)
     assert(width == output.shape().dims[2]);
 
     const cv::Size size(width, height);
-    for (int k = 0; k < channel; ++k) {
+    for (dim_t k = 0; k < channel; ++k) {
         const cv::Mat input_image(size, cv::DataType<T>::type,
                                   (T *)input[k].data());
         cv::Mat output_image(size, cv::DataType<T>::type, output[k].data());
@@ -102,6 +112,7 @@ void same_max_pool_3x3_2d(const int height, const int width,  //
 template <typename T>
 void same_max_pool_3x3(const tensor<T, 3> &input, tensor<T, 3> &output)
 {
+    using dim_t = uint32_t;
     // const int channel = input.shape().dims[0];
     // const int height = input.shape().dims[1];
     // const int width = input.shape().dims[2];
@@ -111,7 +122,7 @@ void same_max_pool_3x3(const tensor<T, 3> &input, tensor<T, 3> &output)
     assert(height == output.shape().dims[1]);
     assert(width == output.shape().dims[2]);
 
-    for (int k = 0; k < channel; ++k) {
+    for (dim_t k = 0; k < channel; ++k) {
         same_max_pool_3x3_2d(height, width, input[k].data(), output[k].data());
     }
 }
@@ -153,7 +164,10 @@ class peak_finder_t
 {
   public:
     peak_finder_t(int channel, int height, int width, int ksize)
-        : channel(channel), height(height), width(width), ksize(ksize),
+        : channel(channel),
+          height(height),
+          width(width),
+          ksize(ksize),
           smoothed_cpu(channel, height, width),
           pooled_cpu(channel, height, width)  //,
     //   pool_input_gpu(channel, height, width),

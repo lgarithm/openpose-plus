@@ -21,7 +21,7 @@ config_flags() {
 
 rebuild() {
     ./configure $(config_flags)
-    make
+    make 2>err.log | tee out.log
 }
 
 measure rebuild

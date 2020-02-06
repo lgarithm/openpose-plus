@@ -3,6 +3,12 @@ PROJECT(openpose-plus++)
 
 SET(CMAKE_CXX_STANDARD 17)
 
+IF(USE_STRICT)
+    ADD_DEFINITIONS(-Wall)
+    ADD_DEFINITIONS(-Werror)
+    ADD_DEFINITIONS(-Wfatal-errors)
+ENDIF()
+
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 FIND_PACKAGE(stdtensor REQUIRED)
 FIND_PACKAGE(stdnn-ops REQUIRED)
@@ -33,3 +39,4 @@ TARGET_LINK_LIBRARIES(paf opencv_core opencv_imgproc opencv_imgcodecs)
 
 ADD_EXAMPLE_MAIN(src/example-main.cpp)
 TARGET_LINK_LIBRARIES(example-main cudart)
+TARGET_USE_CUNN_OPS(example-main)
