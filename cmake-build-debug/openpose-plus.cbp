@@ -93,6 +93,60 @@
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="test-thread-pool">
+				<Option output="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/test-thread-pool" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/include"/>
+					<Add directory="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/3rdparty/include"/>
+					<Add directory="/usr/local/cuda/include"/>
+					<Add directory="/usr/local/include/opencv4"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 test-thread-pool"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test-thread-pool/fast">
+				<Option output="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/test-thread-pool" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/include"/>
+					<Add directory="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/3rdparty/include"/>
+					<Add directory="/usr/local/cuda/include"/>
+					<Add directory="/usr/local/include/opencv4"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 test-thread-pool/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 			<Target title="all-external-projects">
 				<Option working_dir="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug"/>
 				<Option type="4"/>
@@ -118,6 +172,16 @@
 				<Option type="4"/>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="list_install_components">
+				<Option working_dir="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 list_install_components"/>
 					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -172,16 +236,6 @@
 				</Compiler>
 				<MakeCommands>
 					<Build command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 pose-detetor/fast"/>
-					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="list_install_components">
-				<Option working_dir="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 list_install_components"/>
 					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j12 -f &quot;/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
@@ -554,6 +608,9 @@
 		</Unit>
 		<Unit filename="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/examples/stream_detector.h">
 			<Option target="stream-detetor"/>
+		</Unit>
+		<Unit filename="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/examples/test_thread_pool.cpp">
+			<Option target="test-thread-pool"/>
 		</Unit>
 		<Unit filename="/home/ganler/Desktop/GANLER/codes/non-mine/openpose-plus/examples/thread_pool.cpp">
 			<Option target="helpers"/>
